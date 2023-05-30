@@ -62,7 +62,7 @@ featureflagcpuid1:	#REF: charts https://en.wikipedia.org/wiki/CPUID
 
 featureflagcpuid1EDX:
 	.ascii "        CPUID:1 EDX OUTPUT BITS CHART\n"
-  .ascii "_________________________________________________\n"
+        .ascii "_________________________________________________\n"
 	.ascii "Bit 0 fpu Physical Address Extension\n"
 	.ascii "Bit 1 vme Machine Check Exception\n"
 	.ascii "Bit 2 de CMPXCHG8 (compare-and-swap) instruction\n"
@@ -98,7 +98,7 @@ featureflagcpuid1EDX:
 
 featureflagcpuid7EBX:
 	.ascii "        CPUID:7 EBX OUTPUT BITS CHART\n"
-  .ascii "_________________________________________________\n"
+        .ascii "_________________________________________________\n"
 	.ascii "Bit 0 fsgsbase Access to base of %fs and %gs\n"
 	.ascii "Bit 1 IA32_TSC_ADJUST MSR\n"
 	.ascii "Bit 2 sgx Software Guard Extensions\n"
@@ -139,7 +139,7 @@ CPUIDRDX:
 	.ascii "         RDX: \0"
 
 CPUID7:
-  .ascii "CPUID 7  RBX: \0"
+       	.ascii "CPUID 7  RBX: \0"
 
 CPUIDRCX:
 	.ascii "         RCX: \0"
@@ -151,7 +151,7 @@ EDXBITS:
 	.ascii "        CPUID:1 EDX OUTPUT\n\0"
 
 EBXBITS:
-  .ascii "        CPUID:7 EBX OUTPUT\n\0"
+        .ascii "        CPUID:7 EBX OUTPUT\n\0"
 
 NewLine:
 	.ascii "\n\0"
@@ -224,11 +224,11 @@ _start:
 	call WriteString
 	mov rax, 0	
  	lea rdi, CPUIDRDX
-  call WriteString
-  mov edi, edx	#for use with WriteHext edx to edi for ouput
-  call WriteHex
-  lea rdi, NewLine
-  call WriteString 
+        call WriteString
+        mov edi, edx	#for use with WriteHext edx to edi for ouput
+        call WriteHex
+        lea rdi, NewLine
+        call WriteString 
 	call WriteString
 	
 	#------------------>print chart
@@ -269,7 +269,7 @@ main:
 
 loop_Binary_First_Nibble: #issue with lsb had to manually do this loop for that first nibble shifts right and left because I am doing sets of nibbles for visibility
 	cmp r9b, dl
-  jl printZero
+        jl printZero
        
 printOne:
         sub r9b, dl
@@ -290,11 +290,11 @@ end_:
 
 	#------------------>prints out hex value of ebp
 	lea rdi, NewLine
-  call WriteString
-  mov edi, ebp
-  call WriteHex
-  lea rdi, NewLine
-  call WriteString
+        call WriteString
+        mov edi, ebp
+        call WriteHex
+        lea rdi, NewLine
+        call WriteString
 	call WriteString
 	mov r12, 7 #------->loopshift counter loop 7 times
 	
@@ -302,17 +302,17 @@ end_:
 loopshift:
 		#---------->Prints Bits range
 		lea rdi, Bits
-    call WriteString
+        	call WriteString
 		add r13, 4
-    mov rdi, r13
-    call WriteInt
-    lea rdi, Dash
-    call WriteString
+        	mov rdi, r13
+        	call WriteInt
+        	lea rdi, Dash
+        	call WriteString
 		add r14, 4
-    mov rdi, r14
-    call WriteInt
-    lea rdi, NewLine
-    call WriteString
+        	mov rdi, r14
+        	call WriteInt
+        	lea rdi, NewLine
+        	call WriteString
 		lea rdi, Bar
 		call WriteString
 
@@ -369,15 +369,15 @@ end:
 	
 	#------------------>run again with edx once loop reaches 0
 	mov eax, 1
-  cpuid
-  mov ebp, edx
+        cpuid
+        mov ebp, edx
 	mov rax, 0
 	mov rdx, 0
 	mov rcx, 0
 	lea rdi, featureflagcpuid1EDX
-  call WriteString
-  lea rdi, EDXBITS
-  call WriteString
+        call WriteString
+        lea rdi, EDXBITS
+        call WriteString
 	#------------------>reset loop to main for edx cpuid 1 run
 	jmp main #--------->jumping to main
 	
@@ -387,22 +387,22 @@ CPUID_7:
 	call WriteString
 	mov eax, 7
 	xor ecx, ecx
-  cpuid
+        cpuid
 	mov edi, ebx
 	call WriteHex
 	lea rdi, NewLine
 	call WriteString
-  lea rdi, CPUIDRCX
-  call WriteString
-  mov edi, ecx
-  call WriteHex
-  lea rdi, NewLine
-  call WriteString
+        lea rdi, CPUIDRCX
+        call WriteString
+        mov edi, ecx
+        call WriteHex
+        lea rdi, NewLine
+        call WriteString
 	call WriteString
 	mov ebp, ebx
-  mov rax, 0
-  mov rdx, 0
-  mov rcx, 0
+        mov rax, 0
+        mov rdx, 0
+        mov rcx, 0
 	lea rdi, featureflagcpuid7EBX
 	call WriteString
 	lea rdi, EBXBITS
@@ -422,20 +422,20 @@ loop:			#!!!Warning!!! DO NOT attempt to use the offical I/O syscalls within VMw
 	cmp rbx, 0
 	je inc_jm
 	mov Vendor, rbx
-  lea rdi, Vendor
-  call WriteString
-  mov Vendor, rcx
-  lea rdi, Vendor
-  call WriteString
-  mov Vendor, rdx
-  call WriteString
-  lea rdi, NewLine
-  call WriteString
-  call WriteString
+        lea rdi, Vendor
+        call WriteString
+        mov Vendor, rcx
+        lea rdi, Vendor
+        call WriteString
+        mov Vendor, rdx
+        call WriteString
+        lea rdi, NewLine
+        call WriteString
+        call WriteString
 inc_jm:
 	mov rax, 0
-  mov rdx, 0
-  mov rcx, 0
+        mov rdx, 0
+        mov rcx, 0
 	inc r10
 	#------------------> exit loop max CPUID for Virtual Machine checking Inside looking out	
 	cmp r10, 0x40000010
