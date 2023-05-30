@@ -1,4 +1,4 @@
-#Jonathan Lee
+#Author Jonathan Lee
 #Professor Devin Cook
 #CSC35 SEC 1
 #CPUID.asm
